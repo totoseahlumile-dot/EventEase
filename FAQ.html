@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FAQ EventEase</title>
+  <meta name="description" content="Frequently asked questions about planning events with EventEase." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Archivo:wght@700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/faq.css" />
+</head>
+<body>
+     <!-- Header -->
+  <header class="site-header">
+    <nav class="nav container">
+      <a class="brand" href="index.html" aria-label="EventEase home">
+        <span class="brand-mark" aria-hidden="true">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          </svg>
+        </span>
+        <span class="brand-name">EventEase</span>
+      </a>
+
+      <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="services.html">Services</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a class="active" href="faq.html" aria-current="page">FAQ</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+
+      <a class="btn btn-dark nav-cta" href="contact.html">Plan an Event</a>
+    </nav>
+  </header>
+
+  <main>
+    <!-- Hero -->
+    <section class="hero">
+      <div class="container hero-inner">
+        <h1>Frequently Asked Questions</h1>
+        <p class="hero-sub">Everything you need to know about planning events with EventEase. Can't find an answer?</p>
+
+        <div class="search">
+          <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input type="search" id="faq-search" placeholder="Search questions..." aria-label="Search questions" autocomplete="off" />
+        </div>
+      </div>
+    </section>
+
+    <!-- Filters -->
+    <section class="filters-bar">
+      <div class="container filters-inner">
+        <div class="filters" role="tablist" aria-label="Filter by category">
+          <button class="chip active" data-filter="all">All</button>
+          <button class="chip" data-filter="planning">Planning</button>
+          <button class="chip" data-filter="pricing">Pricing</button>
+          <button class="chip" data-filter="venues">Venues</button>
+          <button class="chip" data-filter="students">Students</button>
+          <button class="chip" data-filter="professionals">Professionals</button>
+        </div>
+        <span class="count" id="question-count">15 questions</span>
+      </div>
+    </section>
+
+    <!-- FAQ list -->
+    <section class="faq container">
+      <div class="no-results" id="no-results" hidden>
+        <p>No questions match your search.</p>
+      </div>
+
+      <!-- Planning -->
+      <div class="faq-group" data-category="planning">
+        <h2 class="group-title">Planning</h2>
+        <div class="faq-items">
+          <div class="faq-item">
+            <button class="faq-q" aria-expanded="false">
+              <span>How far in advance should I book EventEase for my event?</span>
+              <svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </button>
+            <div class="faq-a"><p>We recommend reaching out at least 6–8 weeks ahead for most events, and 3+ months for larger conferences. That said, we love a challenge — if your timeline is tight, get in touch and we'll do our best to make it happen.</p></div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-q" aria-expanded="false">
+              <span>What information do I need to provide when I enquire?</span>
+              <svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </button>
+            <div class="faq-a"><p>Just the basics to start: the type of event, an approximate date, expected guest count, and a rough budget. The more detail you share, the faster we can tailor a proposal — but don't worry if you're still figuring things out.</p></div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-q" aria-expanded="false">
+              <span>Can Nexus handle events of any size?</span>
+              <svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </button>
+            <div class="faq-a"><p>Absolutely. From intimate 20-person workshops to 500+ guest galas and multi-day conferences, our team scales the planning to fit. We adjust staffing, suppliers, and logistics to match the scope of your event.</p></div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-q" aria-expanded="false">
+              <span>Do you offer on-the-day event management?</span>
+              <svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </button>
+            <div class="faq-a"><p>Yes. An on-site coordinator can run the full schedule, manage vendors, and handle anything unexpected so you can actually enjoy the day. It's included in our full-service packages and available as an add-on otherwise.</p></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pricing -->
+      <div class="faq-group" data-category="pricing">
+        <h2 class="group-title">Pricing</h2>
+        <div class="faq-items">
+          <div class="faq-item">
+            <button class="faq-q" aria-expanded="false">
+              <span>How is pricing structured?</span>
+              <svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </button>
+            <div class="faq-a"><p>We offer flat-fee planning packages and a percentage-of-budget option for larger events. After a short discovery call we send a transparent quote so you know exactly what's included before committing to anything.</p></div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-q" aria-expanded="false">
+              <span>Are there hidden fees?</span>
+              <svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </button>
+            <div class="faq-a"><p>Never. Every quote itemises our planning fee and any third-party supplier costs up front. If something changes mid-project, we'll always flag it and get your sign-off before any extra spend.</p></div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-q" aria-expanded="false">
+              <span>Do you require a deposit?</span>
+              <svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </button>
+            <div class="faq-a"><p>We ask for a 30% deposit to secure your date, with the balance split across agreed milestones. For students and smaller community events we're happy to discuss flexible payment plans.</p></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Venues -->
+      <div class="faq-group" data-category="venues">
+        <h2 class="group-title">Venues</h2>
+        <div class="faq-items">
+          <div class="faq-item">
+            <button class="faq-q" aria-expanded="false">
+              <span>How do you select venues?</span>
+              <svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </button>
+            <div class="faq-a"><p>We match venues to your vibe, capacity, location, and budget, drawing on a vetted network we've built over years. We arrange viewings, handle negotiations, and only recommend spaces we'd be happy to host in ourselves.</p></div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-q" aria-expanded="false">
+              <span>Which cities do you currently cover?</span>
+              <svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </button>
+            <div class="faq-a"><p>We're based in Cape Town with active networks in Observatory, Rondebosch, and V&A Waterfront. We also plan events further afield on request — just let us know your location and we'll confirm what we can do.</p></div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-q" aria-expanded="false">
+              <span>Can I bring my own venue?</span>
+              <svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </button>
+            <div class="faq-a"><p>Of course. If you've already secured a space — a campus hall, an office, or somewhere special to you — we'll plan around it and coordinate directly with the venue team on logistics and setup.</p></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Students -->
+      <div class="faq-group" data-category="students">
+        <h2 class="group-title">Students</h2>
+        <div class="faq-items">
+          <div class="faq-item">
+            <button class="faq-q" aria-expanded="false">
+              <span>I'm a student with a tight budget. Can EventEase still help?</span>
+              <svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </button>
+            <div class="faq-a"><p>Definitely — supporting students is at the heart of what we do. We offer reduced student rates, scrappy DIY-friendly plans, and supplier discounts to stretch every pound as far as it'll go.</p></div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-q" aria-expanded="false">
+              <span>Do you work directly with student unions and societies?</span>
+              <svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </button>
+            <div class="faq-a"><p>Yes, regularly. We partner with unions and societies on everything from freshers' events to formals and conferences, and we're comfortable working within committee budgets and approval processes.</p></div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-q" aria-expanded="false">
+              <span>Can EventEase help us find sponsors for our event?</span>
+              <svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </button>
+            <div class="faq-a"><p>We can. We'll help you build a sponsorship pack, identify brands that fit your audience, and make warm introductions where we have existing relationships to get conversations moving.</p></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Professionals -->
+      <div class="faq-group" data-category="professionals">
+        <h2 class="group-title">Professionals</h2>
+        <div class="faq-items">
+          <div class="faq-item">
+            <button class="faq-q" aria-expanded="false">
+              <span>Can EventEase handle recurring monthly networking events?</span>
+              <svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </button>
+            <div class="faq-a"><p>Yes — recurring series are one of our specialities. We set up a repeatable playbook for venue, catering, and promotion so each edition runs smoothly while you focus on growing your community.</p></div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-q" aria-expanded="false">
+              <span>Do you offer corporate invoicing and reporting?</span>
+              <svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </button>
+            <div class="faq-a"><p>We do. We provide proper purchase-order handling, consolidated invoicing, and post-event reports covering attendance, spend, and feedback — everything your finance and marketing teams need.</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta">
+      <div class="container cta-inner">
+        <h2>Still Have Questions?</h2>
+        <p>Our team usually responds within a few hours on business days.</p>
+        <div class="cta-actions">
+          <a class="btn btn-dark" href="contact.html">Contact the Team</a>
+          <a class="btn btn-outline" href="mailto:hello@nexusevents.co">hello@eventease.co</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div class="footer-brand">
+        <a class="brand" href="index.html" aria-label="Nexus home">
+          <span class="brand-mark" aria-hidden="true">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 0L16 8L8 16L0 8L8 0Z" fill="white" /></svg>
+          </span>
+          <span class="brand-name">EventEase</span>
+        </a>
+        <p class="footer-desc">Event planning for the next generation. Connecting students and young professionals through unforgettable experiences.</p>
+        <div class="socials">
+          <a href="#" aria-label="X">X</a>
+          <a href="#" aria-label="Instagram">●</a>
+          <a href="#" aria-label="LinkedIn">in</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h3>Company</h3>
+        <ul>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="about.html">Our Team</a></li>
+          <li><a href="services.html">Services</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h3>Events</h3>
+        <ul>
+          <li><a href="#">Campus Events</a></li>
+          <li><a href="#">Networking</a></li>
+          <li><a href="#">Workshops</a></li>
+          <li><a href="#">Corporate</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h3>Support</h3>
+        <ul>
+          <li><a href="faq.html">FAQ</a></li>
+          <li><a href="contact.html">Register Interest</a></li>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms of Use</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="container footer-bottom">
+      <span>© 2026 EventEase Ltd. All rights reserved.</span>
+      <span class="status"><span class="status-dot"></span> All systems operational</span>
+    </div>
+  </footer>
+
+  <script src="js/faq.js"></script>
+</body>
+</html>
