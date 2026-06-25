@@ -1,0 +1,417 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>About Us — EventEase Co.</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- ===================== HEADER ===================== -->
+    <header class="site-header" data-header>
+      <nav class="nav">
+        <!-- Logo -->
+        <a class="nav-logo" href="index.html" aria-label="EventEase home">
+          <span class="brand-icon">
+            <i class="fa-regular fa-calendar-check"></i>
+          </span>
+          EventEase
+        </a>
+
+        <!-- Centre links -->
+        <ul class="nav-links" data-mobile-nav hidden>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="events.html">Events</a></li>
+          <li><a href="services.html">Services</a></li>
+          <li>
+            <a href="about.html" class="active" aria-current="page">About</a>
+          </li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="FAQ.html">FAQ</a></li>
+        </ul>
+
+        <!-- Right actions -->
+        <div class="nav-actions">
+          <button
+            class="theme-toggle"
+            data-theme-toggle
+            type="button"
+            aria-label="Toggle theme"
+          >
+            <span data-theme-icon data-icon="moon" aria-hidden="true"></span>
+          </button>
+          <a class="btn-nav nav-cta" href="contact.html">Book Now</a>
+          <button
+            class="nav-toggle"
+            data-menu-toggle
+            aria-label="Open menu"
+            aria-expanded="false"
+          >
+            <span data-menu-icon data-icon="menu" aria-hidden="true"></span>
+          </button>
+        </div>
+      </nav>
+    </header>
+
+    <!-- ===================== HERO ===================== -->
+    <div class="hero">
+      <p class="eyebrow">About our team</p>
+      <h1>We turn <em>moments</em><br />into memories.</h1>
+      <p class="hero-body">
+        A collective of six passionate event professionals dedicated to crafting
+        experiences that linger long after the last guest has gone home.
+      </p>
+      <div class="cta-row">
+        <a href="contact.html" class="btn-primary">Work with us</a>
+        <button class="btn-ghost" onclick="scrollToTeam()">
+          Meet the team
+        </button>
+      </div>
+    </div>
+
+    <!-- ===================== TEAM PHOTO ===================== -->
+    <div class="team-photo-section">
+      <p class="team-photo-label">The whole crew</p>
+      <div class="team-photo-wrap">
+        <img
+          src="images/team.png"
+          alt="The EventEase team"
+          class="team-photo-img"
+        />
+      </div>
+    </div>
+
+    <!-- ===================== STORY ===================== -->
+    <section>
+      <div class="story-grid">
+        <div>
+          <p class="section-label">Our story</p>
+        </div>
+        <div class="story-body">
+          <h2>Born from a love of <em>gathering people</em></h2>
+          <p>
+            EventEase was founded on a simple but powerful belief — that every
+            individual should be able to cultivate their own outstanding event
+            regardless of their social pull, experience, or connections. Whether
+            an intimate dinner for twelve or a wedding for five hundred, all who
+            wish to celebrate should have the platform to do so.
+          </p>
+          <p>
+            We began as a small team with big dreams, and have since grown into
+            a family of six specialists who collectively cover every detail from
+            initial concept to final farewell. We are planners, stylists,
+            logistics experts, and storytellers — and we love what we do.
+          </p>
+          <p>
+            Our work spans corporate galas, intimate celebrations, destination
+            weddings, product launches, and cultural events. Based in South
+            Africa, we bring a distinctly local warmth and creativity to every
+            occasion.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== TEAM ===================== -->
+    <section id="team">
+      <div class="team-header">
+        <div>
+          <p class="section-label">The people behind the magic</p>
+          <h2>Meet our <em>team</em></h2>
+        </div>
+        <div class="team-count">06</div>
+      </div>
+
+      <div class="team-grid">
+        <div class="member-card">
+          <div class="member-photo">
+            <img src="images/SS.jpg" alt="Sisamila" />
+          </div>
+          <div class="member-info">
+            <div class="member-name">Sisamila</div>
+            <div class="member-role">Lead Event Director</div>
+            <p class="member-bio">
+              Sisamila leads every project from vision to execution. With a
+              sharp eye for detail and an unshakeable calm under pressure, she
+              ensures no moment is left to chance.
+            </p>
+          </div>
+        </div>
+
+        <div class="member-card">
+          <div class="member-photo">
+            <img src="images/MD.JPG" alt="Mubaarik" />
+          </div>
+          <div class="member-info">
+            <div class="member-name">Mubaarik</div>
+            <div class="member-role">Creative Stylist</div>
+            <p class="member-bio">
+              Mubaarik is the visual architect of every event — transforming
+              blank spaces into immersive environments through colour, texture,
+              and her extraordinary design instinct.
+            </p>
+          </div>
+        </div>
+
+        <div class="member-card">
+          <div class="member-photo">
+            <img src="images/K.jpg" alt="Kirsten" />
+          </div>
+          <div class="member-info">
+            <div class="member-name">Kirsten</div>
+            <div class="member-role">Client Experience Manager</div>
+            <p class="member-bio">
+              Kirsten is the warm voice behind every client relationship. She
+              listens deeply, communicates clearly, and makes sure every client
+              feels heard from the first call to the final bow.
+            </p>
+          </div>
+        </div>
+
+        <div class="member-card">
+          <div class="member-photo">
+            <img src="images/KS.jpg" alt="Kanya" />
+          </div>
+          <div class="member-info">
+            <div class="member-name">Kanya</div>
+            <div class="member-role">Logistics &amp; Vendor Coordinator</div>
+            <p class="member-bio">
+              Kanya keeps the moving parts moving. Her vendor relationships,
+              logistical precision, and calm problem-solving make even the most
+              complex events look effortless.
+            </p>
+          </div>
+        </div>
+
+        <div class="member-card">
+          <div class="member-photo">
+            <img src="images/A.jpeg" alt="Ahlumile" />
+          </div>
+          <div class="member-info">
+            <div class="member-name">Ahlumile</div>
+            <div class="member-role">Entertainment &amp; Talent Specialist</div>
+            <p class="member-bio">
+              Ahlumile curates the moments that get people talking. From live
+              performances to surprise activations, she brings the energy, the
+              talent, and the unforgettable flourishes.
+            </p>
+          </div>
+        </div>
+
+        <div class="member-card">
+          <div class="member-photo">
+            <img src="images/MM.jpg" alt="Migcobo" />
+          </div>
+          <div class="member-info">
+            <div class="member-name">Migcobo</div>
+            <div class="member-role">Digital &amp; Marketing Lead</div>
+            <p class="member-bio">
+              Migcobo tells the story of every event before, during, and after.
+              She crafts the digital presence, photography briefs, and social
+              moments that extend the magic beyond the room.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== VALUES ===================== -->
+    <section class="values-section">
+      <p class="section-label">What we stand for</p>
+      <h2>Our <em>values</em></h2>
+      <div class="values-grid">
+        <div class="value-item">
+          <p class="value-title">People first</p>
+          <p class="value-text">
+            Every event starts and ends with people. We listen before we plan,
+            and we never lose sight of the human experience behind every brief.
+          </p>
+        </div>
+        <div class="value-item">
+          <p class="value-title">Detail obsessed</p>
+          <p class="value-text">
+            The difference between good and extraordinary lives in the details.
+            We sweat the small stuff so our clients never have to.
+          </p>
+        </div>
+        <div class="value-item">
+          <p class="value-title">Rooted in SA</p>
+          <p class="value-text">
+            Our creativity is shaped by South Africa's richness — its culture,
+            colour, and community. Local warmth, global standard.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== CTA ===================== -->
+    <section class="cta-section" id="contact">
+      <p class="eyebrow">Ready to begin?</p>
+      <h2>Let's create something <em>extraordinary</em></h2>
+      <p class="sub">
+        Tell us about your event and we'll set up a complimentary consultation
+        with our team.
+      </p>
+      <a href="contact.html" class="btn-dark">Get in touch</a>
+    </section>
+
+    <!-- ===================== FOOTER ===================== -->
+    <footer class="site-footer">
+      <div class="container footer-grid">
+        <div class="footer-brand">
+          <a class="brand-link" href="home.html" aria-label="EventEase home">
+            <span class="brand-icon-wrap">
+              <i class="fa-regular fa-calendar-check"></i>
+            </span>
+            <span class="brand-name">EventEase</span>
+          </a>
+          <p class="footer-desc">
+            Event planning for the next generation. Connecting students and
+            young professionals through unforgettable experiences.
+          </p>
+          <div class="socials">
+            <a href="#" aria-label="X">X</a>
+            <a href="#" aria-label="Instagram"
+              ><i class="fa-brands fa-instagram"></i
+            ></a>
+            <a
+              href="#https://www.linkedin.com/in/sisamila-sigabi-9b1663414/"
+              aria-label="LinkedIn"
+              ><i class="fa-brands fa-linkedin-in"></i
+            ></a>
+          </div>
+        </div>
+
+        <div class="footer-col">
+          <h3>Company</h3>
+          <ul>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="about.html">Our Team</a></li>
+            <li><a href="services.html">Services</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h3>Events</h3>
+          <ul>
+            <li><a href="services.html">Campus Events</a></li>
+            <li><a href="services.html">Networking</a></li>
+            <li><a href="services.html">Workshops</a></li>
+            <li><a href="services.html">Corporate</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h3>Support</h3>
+          <ul>
+            <li><a href="FAQ.html">FAQ</a></li>
+            <li><a href="contact.html">Register Interest</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Terms of Use</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="container footer-bottom">
+        <span>© 2026 EventEase Ltd. All rights reserved.</span>
+        <span class="status"
+          ><span class="status-dot"></span> All systems operational</span
+        >
+      </div>
+    </footer>
+
+    <!-- ===================== SCRIPTS ===================== -->
+    <script>
+      const icons = {
+        menu: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h16"/><path d="M4 18h16"/><path d="M4 6h16"/></svg>',
+        moon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>',
+        sun: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2m-7.07-14.07 1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2m-4.93 7.07-1.41-1.41M6.34 6.34 4.93 4.93"/></svg>',
+        x: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>',
+      };
+
+      /* Restore theme immediately to avoid flash */
+      const savedTheme = localStorage.getItem("eventease-theme");
+      document.body.classList.toggle("dark-mode", savedTheme === "dark");
+
+      function injectIcons(root = document) {
+        root.querySelectorAll("[data-icon]").forEach((el) => {
+          if (icons[el.dataset.icon]) el.innerHTML = icons[el.dataset.icon];
+        });
+      }
+
+      function updateThemeIcons() {
+        const isDark = document.body.classList.contains("dark-mode");
+        document.querySelectorAll("[data-theme-icon]").forEach((icon) => {
+          icon.dataset.icon = isDark ? "sun" : "moon";
+        });
+        injectIcons();
+      }
+
+      function setMenu(open) {
+        const nav = document.querySelector("[data-mobile-nav]");
+        const toggle = document.querySelector("[data-menu-toggle]");
+        const icon = document.querySelector("[data-menu-icon]");
+        if (!nav || !toggle || !icon) return;
+        nav.hidden = !open;
+        toggle.setAttribute("aria-expanded", String(open));
+        toggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+        icon.dataset.icon = open ? "x" : "menu";
+        document.body.classList.toggle("menu-open", open);
+        injectIcons(toggle);
+      }
+
+      function setupHeader() {
+        const header = document.querySelector("[data-header]");
+        if (!header) return;
+        const update = () =>
+          header.classList.toggle("is-scrolled", window.scrollY > 8);
+        update();
+        window.addEventListener("scroll", update, { passive: true });
+      }
+
+      document.querySelectorAll("[data-theme-toggle]").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const isDark = document.body.classList.toggle("dark-mode");
+          localStorage.setItem("eventease-theme", isDark ? "dark" : "light");
+          updateThemeIcons();
+        });
+      });
+
+      const menuBtn = document.querySelector("[data-menu-toggle]");
+      menuBtn?.addEventListener("click", () => {
+        setMenu(menuBtn.getAttribute("aria-expanded") !== "true");
+      });
+
+      document
+        .querySelector("[data-mobile-nav]")
+        ?.addEventListener("click", (e) => {
+          if (e.target.closest("a")) setMenu(false);
+        });
+
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") setMenu(false);
+      });
+
+      function scrollToTeam() {
+        const el = document.getElementById("team");
+        if (!el) return;
+        window.scrollTo({
+          top: el.getBoundingClientRect().top + window.pageYOffset - 82,
+          behavior: "smooth",
+        });
+      }
+
+      injectIcons();
+      updateThemeIcons();
+      setupHeader();
+    </script>
+  </body>
+</html>
