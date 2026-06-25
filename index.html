@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EventEase Home Page</title>
+    <meta
+      name="description"
+      content="EventEase creates unforgettable weddings, parties, corporate functions, and celebrations."
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="script.js" defer></script>
+  </head>
+  <body>
+    <!-- NAVBAR -->
+    <header class="site-header" data-header>
+      <nav class="nav">
+        <a class="brand" href="index.html" aria-label="EventEase home">
+          <span class="brand-mark" aria-hidden="true">
+            <i class="fa-regular fa-calendar-check"></i>
+          </span>
+          <span class="brand-name">EventEase</span>
+        </a>
+
+        <ul class="nav-links" data-mobile-nav>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="events.html">Events</a></li>
+          <li><a href="services.html">Services</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a class="active" href="contact.html" aria-current="page">Contact</a></li>
+          <li><a href="faq.html">FAQ</a></li>
+        </ul>
+
+        <div class="nav-actions">
+          <button class="theme-toggle" data-theme-toggle type="button" aria-label="Toggle theme">
+            <span data-theme-icon data-icon="moon" aria-hidden="true"></span>
+          </button>
+          <a class="btn btn-dark nav-cta" id="openPopup" href="#consultPopup">Book Now</a>
+          <button class="nav-toggle" data-menu-toggle type="button" aria-label="Open menu" aria-expanded="false">
+            <span data-menu-icon data-icon="menu" aria-hidden="true"></span>
+          </button>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero section-gradient reveal" id="home">
+        <div class="container hero-inner">
+          <div class="hero-copy">
+            <h1>
+              <span class="gradient-text animated-gradient">Create Unforgettable</span>
+              <span>Moments</span>
+            </h1>
+            <p>
+              Your premier event planning partner for weddings, parties, corporate functions, and once-in-a-lifetime
+              celebrations
+            </p>
+
+            <form class="search-form" role="search">
+              <span class="search-icon" data-icon="search" aria-hidden="true"></span>
+              <label class="sr-only" for="event-search">Search for events, venues, or services</label>
+              <input id="event-search" type="search" placeholder="Search for events, venues, or services..." />
+            </form>
+          </div>
+
+          <div class="stats-grid" aria-label="EventEase highlights">
+            <article class="stat-card">
+              <span data-icon="calendar" aria-hidden="true"></span>
+              <strong>500+</strong>
+              <span>Events Planned</span>
+            </article>
+            <article class="stat-card">
+              <span data-icon="users" aria-hidden="true"></span>
+              <strong>10k+</strong>
+              <span>Happy Clients</span>
+            </article>
+            <article class="stat-card">
+              <span data-icon="sparkles" aria-hidden="true"></span>
+              <strong>5+</strong>
+              <span>Years Experience</span>
+            </article>
+          </div>
+        </div>
+      </section>
+    </main>
+<!-- Footer -->
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div class="footer-brand">
+        <a class="brand" href="index.html" aria-label="Nexus home">
+          <span class="brand-mark" aria-hidden="true">
+            <i class="fa-regular fa-calendar-check"></i>
+          </span>
+          <span class="brand-name">EventEase</span>
+        </a>
+        <p class="footer-desc">Event planning for the next generation. Connecting students and young professionals through unforgettable experiences.</p>
+        <div class="socials">
+          <a href="#" aria-label="X">X</a>
+          <a href="#" aria-label="Instagram">●</a>
+          <a href="#" aria-label="LinkedIn">in</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h3>Company</h3>
+        <ul>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="about.html">Our Team</a></li>
+          <li><a href="services.html">Services</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h3>Events</h3>
+        <ul>
+          <li><a href="#">Campus Events</a></li>
+          <li><a href="#">Networking</a></li>
+          <li><a href="#">Workshops</a></li>
+          <li><a href="#">Corporate</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h3>Support</h3>
+        <ul>
+          <li><a href="faq.html">FAQ</a></li>
+          <li><a href="contact.html">Register Interest</a></li>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms of Use</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="container footer-bottom">
+      <span>© 2026 EventEase Ltd. All rights reserved.</span>
+      <span class="status"><span class="status-dot"></span> All systems operational</span>
+    </div>
+  </footer>
+
+  <script src="js/faq.js"></script>
+</body>
+</html>
