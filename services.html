@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EventEase - Services for Students & Young Professionals</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        :root {
+            --page: #FFFFFF;
+            --text: #1F2937;
+            --muted: #627086;
+            --border: #D8E4F7;
+            --footer-bg: #12121A;
+            --brand: #2F67F2;
+            --brand-light: #3B82F6;
+            --brand-strong: #1D3C99;
+            --accent: #2F67F2;
+            --accent-soft: rgba(37, 99, 235, 0.11);
+            --accent-glow: rgba(59, 130, 246, 0.4);
+            --header-height: 82px;
+            --card-bg: #FFFFFF;
+            --card-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
+        }
+
+        body.dark-mode {
+            --page: #020202;
+            --text: #F4F4F5;
+            --muted: #A1A1AA;
+            --border: #27272A;
+            --brand: #FFA31A;
+            --brand-light: #FFCF6B;
+            --brand-strong: #CC7A00;
+            --accent: #FFA31A;
+            --accent-soft: rgba(255, 163, 26, 0.14);
+            --accent-glow: rgba(255, 163, 26, 0.48);
+            --card-bg: #12121A;
+            --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background: var(--page);
+            color: var(--text);
+            font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            line-height: 1.5;
+        }
+
+        body.menu-open, body.modal-open { overflow: hidden; }
+        a { color: inherit; text-decoration: none; }
+        button { font: inherit; }
+
+        .site-header {
+            position: fixed;
+            inset: 0 0 auto;
+            z-index: 20;
+            min-height: var(--header-height);
+            border-bottom: 1px solid var(--border);
+            background: #FFFFFF;
+            transition: border-color 180ms ease, box-shadow 180ms ease, background 180ms ease;
+        }
+
+        .site-header::before {
+            content: "";
+            position: absolute;
+            inset: 0 0 auto;
+            height: 6px;
+            background: #56C8C4;
+        }
+
+        .site-header:hover, .site-header.is-scrolled {
+            border-color: var(--border);
+            box-shadow: 0 12px 28px rgba(37, 99, 235, 0.08);
+        }
+
+        body.dark-mode .site-header {
+            background: color-mix(in srgb, var(--page) 92%, transparent);
+            -webkit-backdrop-filter: blur(14px);
+            backdrop-filter: blur(14px);
+        }
+
+        body.dark-mode .site-header::before { background: var(--brand); }
+        body.dark-mode .site-header:hover, body.dark-mode .site-header.is-scrolled {
+            border-color: var(--accent);
+            box-shadow: 0 0 18px 3px var(--accent-glow);
+        }
+
+        /* ── NAV FIX: flex instead of grid, edges locked ── */
+        .nav {
+            width: 100%;
+            min-height: var(--header-height);
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            padding-top: 6px;
+            padding-left: 32px;
+            padding-right: 32px;
+        }
+
+        .brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-right: auto;
+        }
+
+        .brand-mark {
+            width: 36px;
+            height: 36px;
+            display: inline-grid;
+            place-items: center;
+            color: var(--brand);
+        }
+
+        .brand-mark i { font-size: 32px; line-height: 1; }
+        .brand-name { font-size: 1.5rem; font-weight: 700; color: var(--brand); }
+
+        .nav-links {
+            margin: 0 auto;
+            padding: 0;
+            list-style: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 28px;
+            color: var(--muted);
+            font-size: 1.08rem;
+            font-weight: 500;
+        }
+
+        .nav-links a {
+            display: inline-flex;
+            align-items: center;
+            min-height: 40px;
+            transition: color 160ms ease;
+        }
+
+        .nav-links a:hover { color: var(--accent); }
+        .nav-links a.active { color: var(--brand); font-weight: 700; }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 40px;
+            padding: 0 30px;
+            border-radius: 999px;
+            font-weight: 700;
+            font-size: 1.05rem;
+            cursor: pointer;
+            border: 0;
+            transition: transform 160ms ease, box-shadow 160ms ease, filter 160ms ease;
+        }
+
+        .btn-dark {
+            color: #FFFFFF;
+            background: linear-gradient(90deg, var(--brand-strong), var(--brand));
+        }
+
+        .btn-dark:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 28px var(--accent-glow);
+            filter: saturate(1.06);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--accent);
+            color: var(--accent);
+        }
+
+        .btn-outline:hover { background: var(--accent-soft); }
+        .btn-outline.active { background: var(--accent); color: #fff; }
+
+        .theme-toggle {
+            width: 50px;
+            height: 50px;
+            border: 1.5px solid var(--accent);
+            border-radius: 999px;
+            display: inline-grid;
+            place-items: center;
+            background: #FFFFFF;
+            color: var(--accent);
+            cursor: pointer;
+            transition: background 160ms ease, transform 160ms ease;
+        }
+
+        .theme-toggle:hover { background: var(--accent-soft); }
+        .theme-toggle svg { width: 28px; height: 28px; }
+        body.dark-mode .theme-toggle { background: transparent; }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-left: auto;
+            flex-shrink: 0;
+        }
+
+        .nav-toggle {
+            width: 42px;
+            height: 42px;
+            border: 1px solid var(--accent);
+            border-radius: 999px;
+            display: none;
+            place-items: center;
+            background: transparent;
+            color: var(--accent);
+            cursor: pointer;
+        }
+
+        .nav-toggle svg { width: 22px; height: 22px; }
+        [data-icon] svg { width: 100%; height: 100%; stroke-width: 2; }
+
+        .services-main { padding-top: calc(var(--header-height) + 40px); padding-bottom: 60px; }
+        .container { width: min(100% - 32px, 1200px); margin-inline: auto; }
+        .section-title { text-align: center; margin-bottom: 16px; font-size: clamp(2rem, 5vw, 3.5rem); }
+        .section-subtitle { text-align: center; color: var(--muted); max-width: 600px; margin: 0 auto 32px; font-size: 1.1rem; }
+
+        .filter-bar {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 32px;
+        }
+
+        .service-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            transition: transform 200ms ease, box-shadow 200ms ease;
+        }
+
+        .service-card.hidden { display: none; }
+        .service-card:hover { transform: translateY(-6px); box-shadow: 0 12px 28px var(--accent-glow); }
+
+        .service-image {
+            width: 100%;
+            height: 200px;
+            background: var(--accent-soft);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .badge {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: var(--brand);
+            color: #fff;
+            padding: 4px 12px;
+            border-radius: 999px;
+            font-size: 0.85rem;
+            font-weight: 700;
+        }
+
+        .service-content { padding: 24px; }
+        .service-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+        .service-name { font-size: 1.4rem; font-weight: 700; margin: 0; }
+        .service-price { font-size: 1.1rem; font-weight: 700; color: var(--brand); }
+        .service-desc { color: var(--muted); margin: 0 0 20px; line-height: 1.6; }
+        .service-features { margin: 0 0 24px; padding: 0; list-style: none; }
+        .service-features li { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; color: var(--text); }
+        .service-features i { color: var(--brand); font-size: 0.9rem; }
+        .service-card .btn { width: 100%; }
+
+        .testimonials { margin-top: 80px; }
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin-top: 40px;
+        }
+        .testimonial-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: var(--card-shadow);
+        }
+        .testimonial-stars { color: var(--brand); margin-bottom: 12px; }
+        .testimonial-text { color: var(--muted); font-style: italic; margin-bottom: 16px; }
+        .testimonial-author { font-weight: 700; }
+
+        .site-footer {
+            background: var(--footer-bg);
+            color: #C7C7D1;
+            padding: 64px 0 28px;
+            margin-top: 80px;
+        }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 32px;
+            padding-bottom: 32px;
+        }
+        .site-footer .brand-name { color: #fff; }
+        .site-footer .brand-mark { color: var(--brand); }
+        .site-footer .brand-mark i { font-size: 28px; }
+        .footer-desc { max-width: 320px; margin: 18px 0 22px; color: #9A9AA6; font-size: 0.95rem; }
+        .socials { display: flex; gap: 10px; }
+        .socials a {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: #20202B;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            color: #C7C7D1;
+            transition: background 0.15s ease;
+        }
+        .socials a:hover { background: #2C2C39; }
+        .footer-col h3 { color: #fff; font-size: 1rem; margin-bottom: 16px; }
+        .footer-col ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 12px; }
+        .footer-col a { color: #9A9AA6; transition: color 0.15s ease; }
+        .footer-col a:hover { color: #fff; }
+        .footer-bottom {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: 24px;
+            border-top: 1px solid #25252F;
+            color: #75757F;
+            font-size: 0.875rem;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .status { display: inline-flex; align-items: center; gap: 8px; }
+        .status-dot { width: 8px; height: 8px; border-radius: 50%; background: #34D399; }
+
+        .modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.6);
+            display: none;
+            place-items: center;
+            z-index: 50;
+            padding: 20px;
+        }
+        .modal.show { display: grid; animation: fadeIn 200ms ease; }
+        .modal-content {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 32px;
+            width: 100%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            animation: slideUp 200ms ease;
+        }
+        .modal-close {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--muted);
+            cursor: pointer;
+        }
+        .form-group { margin-bottom: 16px; }
+        .form-group label { display: block; margin-bottom: 6px; font-weight: 600; }
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            background: var(--page);
+            color: var(--text);
+            font: inherit;
+        }
+        .form-group textarea { resize: vertical; min-height: 80px; }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes dropIn { from { opacity: 0; transform: translateY(-12px); } to { opacity: 1; transform: translateY(0); } }
+
+        @media (max-width: 900px) {
+            .footer-grid { grid-template-columns: 1fr 1fr; }
+        }
+        @media (max-width: 760px) {
+            .nav { padding-left: 16px; padding-right: 16px; gap: 12px; }
+            .nav-toggle { display: inline-grid; }
+            .nav-actions .nav-cta { display: none; }
+            .theme-toggle { width: 42px; height: 42px; }
+            .nav-links {
+                position: absolute;
+                top: 100%;
+                left: 12px;
+                right: 12px;
+                display: none;
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0;
+                padding: 10px 16px 16px;
+                border: 1px solid var(--border);
+                border-top: 0;
+                border-radius: 0 0 18px 18px;
+                background: var(--page);
+                box-shadow: 0 18px 36px rgba(15, 23, 42, 0.12);
+            }
+            body.menu-open .nav-links { display: flex; animation: dropIn 180ms ease both; }
+            .nav-links a { min-height: 44px; }
+        }
+        @media (max-width: 600px) {
+            .footer-grid { grid-template-columns: 1fr; }
+            .footer-bottom { justify-content: center; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="site-header" data-header>
+        <nav class="nav">
+            <a class="brand" href="index.html" aria-label="EventEase home">
+                <span class="brand-mark" aria-hidden="true">
+                    <i class="fa-regular fa-calendar-check"></i>
+                </span>
+                <span class="brand-name">EventEase</span>
+            </a>
+
+            <button class="nav-toggle" data-menu-toggle aria-label="Open menu" aria-expanded="false">
+                <span data-menu-icon data-icon="menu" aria-hidden="true"></span>
+            </button>
+
+            <ul class="nav-links" data-mobile-nav>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="events.html">Events</a></li>
+                <li><a class="active" href="services.html" aria-current="page">Services</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="faq.html">FAQ</a></li>
+            </ul>
+
+            <div class="nav-actions">
+                <button class="theme-toggle" data-theme-toggle type="button" aria-label="Toggle theme">
+                    <span data-theme-icon data-icon="moon" aria-hidden="true"></span>
+                </button>
+                <a class="btn btn-dark nav-cta" href="#contact">Book Now</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="services-main">
+        <div class="container">
+            <h1 class="section-title">Events Made Easy</h1>
+            <p class="section-subtitle">Affordable, stress-free event planning for students, grads, and young professionals. No boring vibes allowed.</p>
+
+            <div class="filter-bar">
+                <button class="btn btn-outline active" data-filter="all">All</button>
+                <button class="btn btn-outline" data-filter="social">Social</button>
+                <button class="btn btn-outline" data-filter="career">Career</button>
+                <button class="btn btn-outline" data-filter="budget">Budget Picks</button>
+            </div>
+
+            <div class="services-grid">
+
+                <div class="service-card" data-category="social">
+                    <div class="service-image">
+                        <img src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?w=600&auto=format&fit=crop" alt="House party">
+                        <span class="badge">Most Popular</span>
+                    </div>
+                    <div class="service-content">
+                        <div class="service-header">
+                            <h3 class="service-name">House Party Package</h3>
+                            <span class="service-price">From R800</span>
+                        </div>
+                        <p class="service-desc">Turn your flat into the spot. We sort decor, playlist, lights, and basic cleanup. You bring the vibes.</p>
+                        <ul class="service-features">
+                            <li><i class="fa-solid fa-check"></i> LED lights & decor setup</li>
+                            <li><i class="fa-solid fa-check"></i> Custom Spotify playlist</li>
+                            <li><i class="fa-solid fa-check"></i> Disposable cups/plates pack</li>
+                            <li><i class="fa-solid fa-check"></i> Post-party cleanup crew</li>
+                        </ul>
+                        <button class="btn btn-dark" data-service="House Party Package">Book This</button>
+                    </div>
+                </div>
+
+                <div class="service-card" data-category="social budget">
+                    <div class="service-image">
+                        <img src="https://images.unsplash.com/photo-1527529482837-4698179dc6ce?w=600&auto=format&fit=crop" alt="Picnic setup">
+                    </div>
+                    <div class="service-content">
+                        <div class="service-header">
+                            <h3 class="service-name">Picnic & Braai Setup</h3>
+                            <span class="service-price">From R500</span>
+                        </div>
+                        <p class="service-desc">Aesthetic park picnics or rooftop braais. We bring the setup, you bring the friends.</p>
+                        <ul class="service-features">
+                            <li><i class="fa-solid fa-check"></i> Blankets, pillows, decor</li>
+                            <li><i class="fa-solid fa-check"></i> Cooler box + ice</li>
+                            <li><i class="fa-solid fa-check"></i> Portable speaker</li>
+                            <li><i class="fa-solid fa-check"></i> Braai stand if needed</li>
+                        </ul>
+                        <button class="btn btn-dark" data-service="Picnic & Braai Setup">Book This</button>
+                    </div>
+                </div>
+
+                <div class="service-card" data-category="career">
+                    <div class="service-image">
+                        <img src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=600&auto=format&fit=crop" alt="Networking event">
+                    </div>
+                    <div class="service-content">
+                        <div class="service-header">
+                            <h3 class="service-name">Networking Mixers</h3>
+                            <span class="service-price">From R1,500</span>
+                        </div>
+                        <p class="service-desc">LinkedIn IRL. We organize small mixers for young professionals to connect. Venue, drinks, icebreakers sorted.</p>
+                        <ul class="service-features">
+                            <li><i class="fa-solid fa-check"></i> Venue booking</li>
+                            <li><i class="fa-solid fa-check"></i> Name tags & icebreakers</li>
+                            <li><i class="fa-solid fa-check"></i> Welcome drink included</li>
+                            <li><i class="fa-solid fa-check"></i> Photographer for LinkedIn pics</li>
+                        </ul>
+                        <button class="btn btn-dark" data-service="Networking Mixers">Book This</button>
+                    </div>
+                </div>
+
+                <div class="service-card" data-category="career budget">
+                    <div class="service-image">
+                        <img src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=600&auto=format&fit=crop" alt="Graduation party">
+                    </div>
+                    <div class="service-content">
+                        <div class="service-header">
+                            <h3 class="service-name">Graduation Parties</h3>
+                            <span class="service-price">From R1,200</span>
+                        </div>
+                        <p class="service-desc">You survived the degree, now celebrate. Themed decor, photo wall, and we'll even print your pics on the spot.</p>
+                        <ul class="service-features">
+                            <li><i class="fa-solid fa-check"></i> Grad-themed backdrop</li>
+                            <li><i class="fa-solid fa-check"></i> Instant photo printer</li>
+                            <li><i class="fa-solid fa-check"></i> Balloon garland</li>
+                            <li><i class="fa-solid fa-check"></i> Playlist + speaker</li>
+                        </ul>
+                        <button class="btn btn-dark" data-service="Graduation Parties">Book This</button>
+                    </div>
+                </div>
+
+                <div class="service-card" data-category="social">
+                    <div class="service-image">
+                        <img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=600&auto=format&fit=crop" alt="Birthday dinner">
+                        <span class="badge">Student Deal</span>
+                    </div>
+                    <div class="service-content">
+                        <div class="service-header">
+                            <h3 class="service-name">Birthday Dinners</h3>
+                            <span class="service-price">From R650</span>
+                        </div>
+                        <p class="service-desc">Restaurant vibes at home. Table setup, fairy lights, cake table. Perfect for 4-10 people.</p>
+                        <ul class="service-features">
+                            <li><i class="fa-solid fa-check"></i> Table decor & centerpieces</li>
+                            <li><i class="fa-solid fa-check"></i> Fairy light installation</li>
+                            <li><i class="fa-solid fa-check"></i> Cake stand + candles</li>
+                            <li><i class="fa-solid fa-check"></i> Custom menu cards</li>
+                        </ul>
+                        <button class="btn btn-dark" data-service="Birthday Dinners">Book This</button>
+                    </div>
+                </div>
+
+                <div class="service-card" data-category="career budget">
+                    <div class="service-image">
+                        <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=600&auto=format&fit=crop" alt="Workshop">
+                    </div>
+                    <div class="service-content">
+                        <div class="service-header">
+                            <h3 class="service-name">Study & Workshop Sessions</h3>
+                            <span class="service-price">From R400</span>
+                        </div>
+                        <p class="service-desc">Group study sessions, skill swaps, or CV workshops. We book the space, snacks, and whiteboards.</p>
+                        <ul class="service-features">
+                            <li><i class="fa-solid fa-check"></i> Quiet venue booking</li>
+                            <li><i class="fa-solid fa-check"></i> Coffee + snacks pack</li>
+                            <li><i class="fa-solid fa-check"></i> Projector/whiteboard</li>
+                            <li><i class="fa-solid fa-check"></i> Pomodoro timer setup</li>
+                        </ul>
+                        <button class="btn btn-dark" data-service="Study & Workshop Sessions">Book This</button>
+                    </div>
+                </div>
+
+            </div>
+
+            <section class="testimonials">
+                <h2 class="section-title">Real Reviews from Real Students</h2>
+                <div class="testimonial-grid">
+                    <div class="testimonial-card">
+                        <div class="testimonial-stars">★★★★★</div>
+                        <p class="testimonial-text">"R800 for the house party setup was the best money I spent. Cleanup crew saved my deposit fr."</p>
+                        <div class="testimonial-author">— Jamie, UCT 3rd Year</div>
+                    </div>
+                    <div class="testimonial-card">
+                        <div class="testimonial-stars">★★★★★</div>
+                        <p class="testimonial-text">"Got my first internship from their networking mixer. The LinkedIn pics were a bonus."</p>
+                        <div class="testimonial-author">— Kabelo, Wits Graduate</div>
+                    </div>
+                    <div class="testimonial-card">
+                        <div class="testimonial-stars">★★★★★</div>
+                        <p class="testimonial-text">"Grad party was Pinterest-level. All my res friends thought I hired a pro company."</p>
+                        <div class="testimonial-author">— Aisha, Stellenbosch</div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container footer-grid">
+            <div class="footer-brand">
+                <a class="brand" href="index.html" aria-label="EventEase home">
+                    <span class="brand-mark" aria-hidden="true">
+                        <i class="fa-regular fa-calendar-check"></i>
+                    </span>
+                    <span class="brand-name">EventEase</span>
+                </a>
+                <p class="footer-desc">Event planning for the next generation. Connecting students and young professionals through unforgettable experiences.</p>
+                <div class="socials">
+                    <a href="#" aria-label="X"><i class="fa-brands fa-x-twitter"></i></a>
+                    <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h3>Company</h3>
+                <ul>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="about.html">Our Team</a></li>
+                    <li><a href="services.html">Services</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h3>Events</h3>
+                <ul>
+                    <li><a href="#">Campus Events</a></li>
+                    <li><a href="#">Networking</a></li>
+                    <li><a href="#">Workshops</a></li>
+                    <li><a href="#">Corporate</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h3>Support</h3>
+                <ul>
+                    <li><a href="faq.html">FAQ</a></li>
+                    <li><a href="contact.html">Register Interest</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms of Use</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="container footer-bottom">
+            <span>© 2026 EventEase Ltd. All rights reserved.</span>
+            <span class="status"><span class="status-dot"></span> All systems operational</span>
+        </div>
+    </footer>
+
+    <div class="modal" id="bookingModal">
+        <div class="modal-content">
+            <button class="modal-close" data-modal-close>&times;</button>
+            <h2 style="margin-top: 0;">Book Your Event</h2>
+            <p style="color: var(--muted); margin-bottom: 24px;">Service: <strong id="modalServiceName">-</strong></p>
+            <form id="bookingForm" action="https://formspree.io/f/xpwzqzqv" method="POST">
+                <input type="hidden" name="service" id="serviceInput">
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email / WhatsApp</label>
+                    <input type="text" id="email" name="email" placeholder="your@email.com or 082 123 4567" required>
+                </div>
+                <div class="form-group">
+                    <label for="date">Event Date</label>
+                    <input type="date" id="date" name="date" required>
+                </div>
+                <div class="form-group">
+                    <label for="guests">How Many People?</label>
+                    <select id="guests" name="guests" required>
+                        <option value="">Select</option>
+                        <option>Just me + 3</option>
+                        <option>5-10</option>
+                        <option>10-20</option>
+                        <option>20-50</option>
+                        <option>50+</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="budget">Your Budget</label>
+                    <select id="budget" name="budget" required>
+                        <option value="">Select</option>
+                        <option>Under R1,000</option>
+                        <option>R1,000 - R2,500</option>
+                        <option>R2,500 - R5,000</option>
+                        <option>R5,000+</option>
+                        <option>Need advice</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="message">Anything else?</label>
+                    <textarea id="message" name="message" placeholder="Theme, location, special requests, dietary stuff..."></textarea>
+                </div>
+                <button type="submit" class="btn btn-dark" style="width: 100%;">Send Request</button>
+                <p style="font-size: 0.85rem; color: var(--muted); margin-top: 12px; text-align: center;">
+                    We'll reply within 12 hours. Student card = 10% off.
+                </p>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const icons = {
+            menu: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h16"/><path d="M4 18h16"/><path d="M4 6h16"/></svg>',
+            moon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 0 1-9-9Z"/></svg>',
+            sun:  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>',
+            x:    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>',
+        };
+
+        document.querySelectorAll('[data-icon]').forEach(el => {
+            const name = el.getAttribute('data-icon');
+            if (icons[name]) el.innerHTML = icons[name];
+        });
+
+        const themeToggleBtn = document.querySelector('[data-theme-toggle]');
+        const themeIconEl    = document.querySelector('[data-theme-icon]');
+
+        function setTheme(dark) {
+            document.body.classList.toggle('dark-mode', dark);
+            localStorage.setItem('eventease-theme', dark ? 'dark' : 'light');
+            const iconName = dark ? 'sun' : 'moon';
+            themeIconEl.setAttribute('data-icon', iconName);
+            themeIconEl.innerHTML = icons[iconName];
+        }
+
+        const savedTheme  = localStorage.getItem('eventease-theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        setTheme(savedTheme === 'dark' || (!savedTheme && prefersDark));
+
+        themeToggleBtn.addEventListener('click', () => {
+            setTheme(!document.body.classList.contains('dark-mode'));
+        });
+
+        const menuToggleBtn = document.querySelector('[data-menu-toggle]');
+        const menuIconEl    = document.querySelector('[data-menu-icon]');
+
+        menuToggleBtn.addEventListener('click', () => {
+            const isOpen = document.body.classList.toggle('menu-open');
+            menuToggleBtn.setAttribute('aria-expanded', String(isOpen));
+            const iconName = isOpen ? 'x' : 'menu';
+            menuIconEl.setAttribute('data-icon', iconName);
+            menuIconEl.innerHTML = icons[iconName];
+        });
+
+        document.querySelectorAll('[data-mobile-nav] a').forEach(link => {
+            link.addEventListener('click', () => {
+                document.body.classList.remove('menu-open');
+                menuIconEl.setAttribute('data-icon', 'menu');
+                menuIconEl.innerHTML = icons.menu;
+                menuToggleBtn.setAttribute('aria-expanded', 'false');
+            });
+        });
+
+        const headerEl = document.querySelector('[data-header]');
+        window.addEventListener('scroll', () => {
+            headerEl.classList.toggle('is-scrolled', window.scrollY > 10);
+        }, { passive: true });
+
+        const filterButtons = document.querySelectorAll('[data-filter]');
+        const serviceCards  = document.querySelectorAll('.service-card');
+
+        filterButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterButtons.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                const filter = btn.getAttribute('data-filter');
+                serviceCards.forEach(card => {
+                    const cats = card.getAttribute('data-category') || '';
+                    const show = filter === 'all' || cats.split(' ').includes(filter);
+                    card.classList.toggle('hidden', !show);
+                });
+            });
+        });
+
+        const bookingModal     = document.getElementById('bookingModal');
+        const modalServiceName = document.getElementById('modalServiceName');
+        const serviceInput     = document.getElementById('serviceInput');
+
+        document.querySelectorAll('[data-service]').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const name = btn.getAttribute('data-service');
+                modalServiceName.textContent = name;
+                serviceInput.value = name;
+                bookingModal.classList.add('show');
+                document.body.classList.add('modal-open');
+            });
+        });
+
+        function closeModal() {
+            bookingModal.classList.remove('show');
+            document.body.classList.remove('modal-open');
+        }
+
+        document.querySelector('[data-modal-close]').addEventListener('click', closeModal);
+        bookingModal.addEventListener('click', e => {
+            if (e.target === bookingModal) closeModal();
+        });
+    </script>
+
+</body>
+</html>
