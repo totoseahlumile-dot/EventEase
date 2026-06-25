@@ -1,0 +1,1224 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Ease</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f3f6fb;
+            color: #1f2937;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem 1rem;
+        }
+
+        #event-card {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            align-items: stretch;
+            grid-auto-rows: minmax(0, 1fr);
+            gap: 1.5rem;
+            max-width: 1100px;
+            width: 100%;
+        }
+
+        .event-card-container {
+            position: relative;
+            min-height: 100%;
+            background: #ffffff;
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .event-card-container:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 18px 40px rgba(15, 23, 42, 0.14);
+        }
+
+        .event-card-container img {
+            width: 100%;
+            height: 260px;
+            object-fit: cover;
+            display: block;
+            background-color: #e2e8f0;
+        }
+
+        .event-card-content {
+            padding: 1rem;
+            z-index: 1;
+        }
+
+        .event-card-content h3 {
+            margin: 0 0 0.75rem;
+            font-size: 1.3rem;
+        }
+
+        body.dark-mode .event-card-content h3 {
+            color: #000000;
+        }
+
+        body.dark-mode .event-card-content,
+        body.dark-mode .event-card-content p,
+        body.dark-mode .popup-body,
+        body.dark-mode .popup-body h2,
+        body.dark-mode .popup-body p {
+            color: #000000;
+        }
+
+        .event-card-content p {
+            margin: 0;
+            color: #475569;
+            line-height: 1.7;
+        }
+
+        #card-popup {
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.55);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            padding: 1.5rem;
+            z-index: 50;
+        }
+
+        #card-popup.active {
+            display: flex;
+        }
+
+        .popup-card {
+            width: min(1000px, 100%);
+            background: #ffffff;
+            border-radius: 22px;
+            overflow: hidden;
+            box-shadow: 0 24px 70px rgba(15, 23, 42, 0.25);
+            display: grid;
+            grid-template-columns: minmax(300px, 420px) minmax(0, 1fr);
+            position: relative;
+            max-height: calc(100vh - 3rem);
+        }
+
+        .popup-close-btn {
+            position: absolute;
+            top: 18px;
+            left: 18px;
+            z-index: 2;
+            width: 40px;
+            height: 40px;
+            border: none;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.9);
+            color: #334155;
+            cursor: pointer;
+            font-size: 1.3rem;
+            box-shadow: 0 6px 18px rgba(15, 23, 42, 0.12);
+        }
+
+        .popup-image {
+            width: 100%;
+            height: 100%;
+            min-height: 100%;
+            object-fit: cover;
+            display: block;
+            align-self: stretch;
+        }
+
+        .popup-body {
+            display: flex;
+            flex-direction: column;
+            padding: 2rem;
+            gap: 1.5rem;
+            overflow-y: auto;
+        }
+
+        .popup-body h2 {
+            margin: 0;
+            font-size: 2rem;
+        }
+
+        .popup-body p {
+            margin: 0;
+            color: #475569;
+            line-height: 1.8;
+        }
+
+        .popup-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .popup-meta span {
+            background: #eef2ff;
+            color: #3730a3;
+            padding: 0.75rem 1rem;
+            border-radius: 999px;
+            font-size: 0.95rem;
+        }
+
+        .popup-details {
+            display: grid;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            background: #f8fafc;
+            border-radius: 14px;
+            color: #334155;
+            line-height: 1.6;
+            font-size: 0.98rem;
+        }
+
+        .popup-details span {
+            font-weight: 600;
+        }
+
+        .popup-actions {
+            margin-top: auto;
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .join-button,
+        .secondary-button {
+            border: none;
+            border-radius: 999px;
+            padding: 0.95rem 1.4rem;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 1rem;
+        }
+
+        .join-button {
+            background: #5a5c62;
+            color: #ffffff;
+        }
+
+        .secondary-button {
+            background: #f8fafc;
+            color: #334155;
+            border: 1px solid #cbd5e1;
+        }
+
+        .join-button:hover {
+            background: #878990;
+        }
+
+        .secondary-button:hover {
+            background: #eef2ff;
+        }
+
+        #confirmation-modal {
+            position: fixed;
+            inset: 0;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            background: rgba(15, 23, 42, 0.65);
+            padding: 1.5rem;
+            z-index: 60;
+        }
+
+        #confirmation-modal.active {
+            display: flex;
+        }
+
+        .modal-card {
+            width: min(420px, 100%);
+            background: #ffffff;
+            border-radius: 22px;
+            padding: 1.75rem;
+            position: relative;
+            box-shadow: 0 22px 60px rgba(15, 23, 42, 0.22);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+        }
+
+        .modal-close-btn {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            width: 36px;
+            height: 36px;
+            border: none;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.9);
+            color: #334155;
+            cursor: pointer;
+            font-size: 1.1rem;
+            box-shadow: 0 6px 18px rgba(15, 23, 42, 0.12);
+        }
+
+        .modal-body {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .modal-message {
+            margin: 0;
+            color: #334155;
+            line-height: 1.7;
+            font-size: 1rem;
+        }
+
+        body.dark-mode .modal-card,
+        body.dark-mode .modal-card h3,
+        body.dark-mode .modal-message {
+            color: #000000;
+        }
+
+        @media (max-width: 860px) {
+            #event-card {
+                grid-template-columns: 1fr;
+            }
+
+            .popup-card {
+                grid-template-columns: 1fr;
+                max-height: none;
+            }
+
+            .popup-image {
+                width: 100%;
+                max-width: none;
+                height: 260px;
+            }
+        }
+        
+        :root {
+            --page: #FFFFFF;
+            --text: #1F2937;
+            --muted: #627086;
+            --border: #D8E4F7;
+            --footer-bg: #12121A;
+            --brand: #2F67F2;
+            --brand-light: #3B82F6;
+            --brand-strong: #1D3C99;
+            --accent: #2F67F2;
+            --accent-soft: rgba(37, 99, 235, 0.11);
+            --accent-glow: rgba(59, 130, 246, 0.4);
+            --header-height: 82px;
+        }
+
+        body.dark-mode {
+            --page: #020202;
+            --text: #F4F4F5;
+            --muted: #A1A1AA;
+            --border: #27272A;
+            --brand: #FFA31A;
+            --brand-light: #FFCF6B;
+            --brand-strong: #CC7A00;
+            --accent: #FFA31A;
+            --accent-soft: rgba(255, 163, 26, 0.14);
+            --accent-glow: rgba(255, 163, 26, 0.48);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background: var(--page);
+            color: var(--text);
+            font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            line-height: 1.5;
+        }
+
+        body.menu-open {
+            overflow: hidden;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        button {
+            font: inherit;
+        }
+
+        .site-header {
+            position: fixed;
+            inset: 0 0 auto;
+            z-index: 20;
+            min-height: var(--header-height);
+            border-bottom: 1px solid var(--border);
+            background: #FFFFFF;
+            transition: border-color 180ms ease, box-shadow 180ms ease, background 180ms ease;
+        }
+
+        .site-header::before {
+            content: "";
+            position: absolute;
+            inset: 0 0 auto;
+            height: 6px;
+            background: #56C8C4;
+        }
+
+        .site-header:hover,
+        .site-header.is-scrolled {
+            border-color: var(--border);
+            box-shadow: 0 12px 28px rgba(37, 99, 235, 0.08);
+        }
+
+        body.dark-mode .site-header {
+            background: color-mix(in srgb, var(--page) 92%, transparent);
+            -webkit-backdrop-filter: blur(14px);
+            backdrop-filter: blur(14px);
+        }
+
+        body.dark-mode .site-header::before {
+            background: var(--brand);
+        }
+
+        body.dark-mode .site-header:hover,
+        body.dark-mode .site-header.is-scrolled {
+            border-color: var(--accent);
+            box-shadow: 0 0 18px 3px var(--accent-glow);
+        }
+
+        .nav-shell {
+            width: min(100% - 32px, 1500px);
+            height: var(--header-height);
+            margin-inline: auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+        }
+
+        .brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .brand-icon {
+            width: 32px;
+            height: 32px;
+            color: var(--brand);
+        }
+
+        .brand-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--brand);
+        }
+
+        .desktop-nav,
+        .desktop-actions,
+        .mobile-actions {
+            display: flex;
+            align-items: center;
+        }
+
+        .desktop-nav {
+            gap: 32px;
+        }
+
+        .desktop-nav a,
+        .mobile-nav a:not(.button) {
+            color: var(--muted);
+            transition: color 160ms ease;
+        }
+
+        .desktop-nav a:hover,
+        .mobile-nav a:hover {
+            color: var(--accent);
+        }
+
+        .desktop-actions,
+        .mobile-actions {
+            gap: 12px;
+        }
+
+        .mobile-actions {
+            display: none;
+        }
+
+        .icon-button {
+            width: 40px;
+            height: 40px;
+            border: 1px solid var(--accent);
+            border-radius: 999px;
+            display: inline-grid;
+            place-items: center;
+            background: transparent;
+            color: var(--accent);
+            cursor: pointer;
+            transition: background 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+        }
+
+        .icon-button:hover {
+            background: var(--accent-soft);
+            box-shadow: 0 0 12px 2px var(--accent-glow);
+        }
+
+        .icon-button:active,
+        .button:active {
+            transform: translateY(1px);
+        }
+
+        .button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 40px;
+            padding: 0 24px;
+            border: 0;
+            border-radius: 999px;
+            cursor: pointer;
+            font-weight: 700;
+            transition: transform 160ms ease, box-shadow 160ms ease, filter 160ms ease;
+        }
+
+        .primary-button {
+            color: #FFFFFF;
+            background: linear-gradient(90deg, var(--brand-strong), var(--brand));
+        }
+
+        .primary-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 28px var(--accent-glow);
+            filter: saturate(1.06);
+        }
+
+        .mobile-nav {
+            width: 100%;
+            padding: 16px;
+            border-top: 1px solid var(--border);
+            background: var(--page);
+            animation: dropIn 180ms ease both;
+        }
+
+        .mobile-nav a {
+            display: block;
+            padding: 10px 0;
+        }
+
+        .mobile-nav .button {
+            margin-top: 8px;
+            width: 100%;
+        }
+
+        [data-icon] svg {
+            width: 100%;
+            height: 100%;
+            stroke-width: 2;
+        }
+
+        .demo-page {
+            min-height: 140vh;
+            padding: 120px 24px 48px;
+            text-align: center;
+        }
+
+        .demo-page h1 {
+            margin: 0 0 12px;
+            font-size: clamp(2.5rem, 7vw, 5rem);
+        }
+
+        .demo-page p {
+            margin: 0 auto;
+            max-width: 560px;
+            color: var(--muted);
+            font-size: 1.1rem;
+        }
+
+        @keyframes dropIn {
+          from {
+            opacity: 0;
+            transform: translateY(-12px);
+        }
+
+          to {
+            opacity: 1;
+        transform: translateY(0);
+        }
+    }
+
+        @media (max-width: 960px) {
+          .desktop-nav,
+          .desktop-actions {
+            display: none;
+        }
+
+          .mobile-actions {
+            display: flex;
+        }
+    }
+
+        @media (max-width: 720px) {
+          .nav-shell {
+            width: min(100% - 24px, 1180px);
+        }
+    }
+        .nav {
+            width: min(100% - 32px, 1500px);
+            min-height: var(--header-height);
+            margin-inline: auto;
+            display: grid;
+            grid-template-columns: minmax(220px, 1fr) auto minmax(220px, 1fr);
+            align-items: center;
+            gap: 24px;
+            padding-top: 6px;
+        }
+
+        .brand {
+            flex: 0 0 auto;
+            justify-self: start;
+        }
+
+        .brand-mark {
+            width: 36px;
+            height: 36px;
+            display: inline-grid;
+            place-items: center;
+            color: var(--brand);
+        }
+
+        .brand-mark svg {
+            width: 34px;
+            height: 34px;
+        }
+
+        .brand-mark i {
+            font-size: 32px;
+            line-height: 1;
+        }
+
+        .nav-links {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 28px;
+            color: var(--muted);
+            font-size: 1.08rem;
+            font-weight: 500;
+            justify-self: center;
+        }
+
+        .nav-links a {
+            display: inline-flex;
+            align-items: center;
+            min-height: 40px;
+            transition: color 160ms ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+
+        .nav-links a.active {
+            color: inherit;
+        }
+
+        .nav-cta {
+            flex: 0 0 auto;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 40px;
+            padding: 0 30px;
+            border-radius: 999px;
+            font-weight: 700;
+            font-size: 1.05rem;
+        }
+
+        .btn-dark {
+            color: #FFFFFF;
+            background: linear-gradient(90deg, var(--brand-strong), var(--brand));
+            box-shadow: none;
+        }
+
+        .theme-toggle {
+            flex: 0 0 auto;
+            width: 50px;
+            height: 50px;
+            border: 1.5px solid var(--accent);
+            border-radius: 999px;
+            display: inline-grid;
+            place-items: center;
+            background: #FFFFFF;
+            color: var(--accent);
+            cursor: pointer;
+            transition: background 160ms ease, transform 160ms ease;
+        }
+
+        .theme-toggle:hover {
+            background: var(--accent-soft);
+        }
+
+        .theme-toggle [data-icon],
+        .theme-toggle svg {
+            width: 28px;
+            height: 28px;
+        }
+
+        body.dark-mode .theme-toggle {
+            background: transparent;
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 12px;
+            justify-self: end;
+        }
+
+        .nav-toggle {
+            width: 42px;
+            height: 42px;
+            border: 1px solid var(--accent);
+            border-radius: 999px;
+            display: none;
+            place-items: center;
+            background: transparent;
+            color: var(--accent);
+            cursor: pointer;
+        }
+
+        .nav-toggle [data-icon],
+        .nav-toggle svg {
+            width: 22px;
+            height: 22px;
+        }
+
+        #event-card {
+            margin-top: calc(var(--header-height) + 32px);
+        }
+
+        .events-title {
+            width: 100%;
+            margin: calc(var(--header-height) + 3px) 0 0.5rem;
+            text-align: center;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            color: var(--text);
+        }
+
+        .events-title + #event-card {
+            margin-top: 0;
+        }
+
+        @media (max-width: 760px) {
+            .nav {
+                width: min(100% - 24px, 1500px);
+                display: flex;
+                gap: 12px;
+            }
+
+            .nav-toggle {
+                display: inline-grid;
+            }
+
+            .nav-actions .nav-cta {
+                display: none;
+            }
+
+            .theme-toggle {
+                width: 42px;
+                height: 42px;
+            }
+
+            .nav-actions {
+                margin-left: auto;
+                gap: 10px;
+            }
+
+            .nav-links {
+                position: absolute;
+                top: 100%;
+                left: 12px;
+                right: 12px;
+                display: none;
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0;
+                padding: 10px 16px 16px;
+                border: 1px solid var(--border);
+                border-top: 0;
+                border-radius: 0 0 18px 18px;
+                background: var(--page);
+                box-shadow: 0 18px 36px rgba(15, 23, 42, 0.12);
+            }
+
+            body.menu-open .nav-links {
+                display: flex;
+            }
+
+            .nav-links a {
+                min-height: 44px;
+            }
+        }
+
+        @media (min-width: 761px) {
+            .nav-links[hidden] {
+                display: flex !important;
+            }
+        }
+
+        .site-footer {
+            width: 100%;
+            margin-top: 64px;
+            background: var(--footer-bg, #12121A);
+            color: #C7C7D1;
+            padding: 64px 0 28px;
+        }
+
+        .container {
+            width: min(100% - 32px, 1500px);
+            margin-inline: auto;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 32px;
+        }
+
+        .site-footer .brand-name { color: #fff; }
+        .footer-desc { max-width: 320px; margin: 18px 0 22px; color: #9A9AA6; font-size: 0.95rem; }
+        .socials { display: flex; gap: 10px; }
+        .socials a {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: #20202B;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            color: #C7C7D1;
+            transition: background 0.15s ease;
+        }
+        .socials a:hover { background: #2C2C39; }
+        .footer-col h3 {
+            color: #fff;
+            font-family: "Inter", sans-serif;
+            font-size: 1rem;
+            margin-bottom: 16px;
+        }
+        .footer-col ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 12px; }
+        .footer-col a { color: #9A9AA6; transition: color 0.15s ease; }
+        .footer-col a:hover { color: #fff; }
+        .footer-bottom {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 48px;
+            padding-top: 24px;
+            border-top: 1px solid #25252F;
+            color: #75757F;
+            font-size: 0.875rem;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .status { display: inline-flex; align-items: center; gap: 8px; }
+        .status-dot { width: 8px; height: 8px; border-radius: 50%; background: #34D399; }
+
+        @media (max-width: 860px) {
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 560px) {
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-bottom {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+        }
+
+        .logo{
+            display:flex;
+            align-items:center;
+            gap:15px;
+        }
+
+        .logo-icon{
+            width:50px;
+            height:50px;
+            background:#111;
+            color:white;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            border-radius:12px;
+            font-size:24px;
+        }
+
+        .logo h1{
+            font-size:24px;
+            color:#111;
+        }
+    </style>
+</head>
+<body>
+    <header class="site-header" data-header>
+        <nav class="nav container">
+            <a class="brand" href="index.html" aria-label="EventEase home">
+                <span class="brand-mark" aria-hidden="true">
+                    <i class="fa-regular fa-calendar-check"></i>
+                </span>
+                <span class="brand-name">EventEase</span>
+            </a>
+            
+            <button class="nav-toggle" data-menu-toggle aria-label="Open menu" aria-expanded="false">
+                <span data-menu-icon data-icon="menu" aria-hidden="true"></span>
+            </button>
+            
+            <ul class="nav-links" data-mobile-nav>
+                <li><a href="index.html">Home</a></li>
+                <li><a class="active" href="events.html" aria-current="page">Events</a></li>
+                <li><a href="services.html">Services</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="faq.html">FAQ</a></li>
+            </ul>
+            
+            <div class="nav-actions">
+                <button class="theme-toggle" data-theme-toggle type="button" aria-label="Toggle theme">
+                    <span data-theme-icon data-icon="moon" aria-hidden="true"></span>
+                </button>
+                <a class="btn btn-dark nav-cta" href="contact.html">Book Now</a>
+            </div>
+        </nav>
+    </header>
+
+    <br>
+    <h1 class="events-title">Events</h1>
+    <div id="event-card">
+        <div class="event-card-container" data-title="Science Seminar" data-description="Join us at this science seminar where we will cover topics such as  Artificial Intelligence (like machine learning and neural networks), Cybersecurity (such as cryptography and network defense), and Software Engineering (like agile methodologies and DevOps)." data-image="https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" data-tags="Seminar, Science, Education" data-location="UCT" data-time="09:00am">
+            <img src="https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="seminar">
+            <div class="event-card-content">
+                <h3>Science Seminar</h3>
+                <p>Join us at this science seminar where we will cover topics such as...</p>
+            </div>
+        </div>
+
+        <div class="event-card-container" data-title="Open Day" data-description="Visit this open day for a new recruitment company startup! It will be hosted by Launced." data-image="https://images.unsplash.com/photo-1745847800502-7bb2047f97f1?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" data-tags="Open Day, Tour, Community" data-location="CTICC" data-time="12:00pm">
+            <img src="https://images.unsplash.com/photo-1745847800502-7bb2047f97f1?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="open day">
+            <div class="event-card-content">
+                <h3>Open Day</h3>
+                <p>Visit this open day for a new recruitment company startup! It will be hosted by..</p>
+            </div>
+        </div>
+
+        <div class="event-card-container" data-title="Interactive Workshop" data-description="Partake in this workshop to obtain more knowledge in data analytics and modern software tools. Through hands-on exercises and expert guidance, you will master the core methodologies needed to interpret complex datasets. " data-image="https://images.unsplash.com/photo-1631350397737-945eb08c78d9?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" data-tags="Workshop, Skills, Interactive" data-location="Innovation Hub" data-time="2:30pm">
+            <img src="https://images.unsplash.com/photo-1631350397737-945eb08c78d9?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="workshop">
+            <div class="event-card-content">
+                <h3>Interactive Workshop</h3>
+                <p>Partake in this workshop to obtain more knowledge in..</p>
+            </div>
+        </div>
+
+        <div class="event-card-container" data-title="Networking Mixer" data-description="Join us at this networking mixer for a chance to connect with fellow local business owners and creators. Share your experiences, pitch your latest projects, and discover potential collaboration opportunities within our vibrant community." data-image="https://plus.unsplash.com/premium_photo-1723579287462-775d10a50bf3?q=80&w=2017&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" data-tags="Networking, Mixer, Social" data-location="Rooftop Lounge" data-time="6:00pm">
+            <img src="https://plus.unsplash.com/premium_photo-1723579287462-775d10a50bf3?q=80&w=2017&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="networking">
+            <div class="event-card-content">
+                <h3>Networking Mixer</h3>
+                <p>Join us at this networking mixer for...</p>
+            </div>
+        </div>
+
+        <div class="event-card-container" data-title="Tech Expo" data-description="Come along and have fun at this tech expo to immerse yourself in the world of next-generation hardware, robotics, and artificial intelligence. Rub shoulders with visionary developers, attend engaging live tech demos, and exchange ideas with fellow creators." data-image="https://images.unsplash.com/photo-1711390811937-1b061eaf28ea?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" data-tags="Tech, Expo, Innovation" data-location="Exhibition Center" data-time="10:00am">
+            <img src="https://images.unsplash.com/photo-1711390811937-1b061eaf28ea?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="expo">
+            <div class="event-card-content">
+                <h3>Tech Expo</h3>
+                <p>Come along and have fun at this tech expo to...</p>
+            </div>
+        </div>
+
+        <div class="event-card-container" data-title="Conference" data-description="We invite you to partake in our leadership conference to gain powerful communication tools and proven methodologies for building high-performing teams. This event focuses heavily on emotional intelligence and adaptive leadership," data-image="https://images.unsplash.com/photo-1558008258-3256797b43f3?q=80&w=1331&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" data-tags="Tech, Conference, Learning" data-location="Waterfront Main Hall" data-time="11:30am">
+            <img src="https://images.unsplash.com/photo-1558008258-3256797b43f3?q=80&w=1331&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="conference">
+            <div class="event-card-content">
+                <h3>Leadership Conference</h3>
+                <p>We invite you to partake in our leadership conference to gain...</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="card-popup" aria-hidden="true">
+        <div class="popup-card">
+            <button class="popup-close-btn" type="button" onclick="closePopup()" aria-label="Close popup">x</button>
+            <img id="popup-image" class="popup-image" src="" alt="Event image">
+            <div class="popup-body">
+                <h2 id="popup-title">Event Title</h2>
+                <p id="popup-description">Event details will appear here once the card is clicked.</p>
+                <div class="popup-details" id="popup-details"></div>
+                <div class="popup-meta" id="popup-tags"></div>
+                <div class="popup-booked" id="popup-booked"></div>
+                <div class="popup-actions">
+                    <button class="join-button" type="button" onclick="joinPopupEvent()">Join Event</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="confirmation-modal" aria-hidden="true">
+        <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="confirmation-title" aria-describedby="confirmation-message">
+            <button class="modal-close-btn" type="button" onclick="closeConfirmation()" aria-label="Close confirmation">x</button>
+            <div class="modal-body">
+                <h3 id="confirmation-title">Reservation Confirmed</h3>
+                <p id="confirmation-message" class="modal-message">Your reservation has been confirmed.</p>
+                <button class="secondary-button" type="button" onclick="closeConfirmation()">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const popup = document.getElementById('card-popup');
+        const popupImage = document.getElementById('popup-image');
+        const popupTitle = document.getElementById('popup-title');
+        const popupDescription = document.getElementById('popup-description');
+        const popupTags = document.getElementById('popup-tags');
+        const popupDetails = document.getElementById('popup-details');
+        const popupBooked = document.getElementById('popup-booked');
+        let currentSessionName = '';
+        let currentCard = null;
+
+        document.querySelectorAll('.event-card-container').forEach(card => {
+            const booked = card.dataset.booked ? Number(card.dataset.booked) : Math.floor(Math.random() * 46) + 5;
+            card.dataset.booked = booked;
+
+            card.addEventListener('click', () => {
+                const title = card.dataset.title;
+                const description = card.dataset.description;
+                const image = card.dataset.image;
+                const tags = card.dataset.tags.split(',').map(tag => tag.trim());
+                const bookedCount = Number(card.dataset.booked || 0);
+                currentSessionName = title;
+                currentCard = card;
+
+                popupImage.src = image;
+                popupImage.alt = title;
+                popupTitle.textContent = title;
+                popupDescription.textContent = description;
+                popupTags.innerHTML = tags.map(tag => `<span>${tag}</span>`).join('');
+                const location = card.dataset.location;
+                const time = card.dataset.time;
+                popupDetails.innerHTML =
+                    location || time
+                        ? `${location ? `<span>Location: ${location}</span>` : ""}${time ? `<span>Time: ${time}</span>` : ""}`
+                        : "";
+                popupBooked.textContent = `${bookedCount} 👤`;
+                popup.classList.add('active');
+                popup.setAttribute('aria-hidden', 'false');
+            });
+        });
+
+        const confirmationModal = document.getElementById('confirmation-modal');
+        const confirmationMessage = document.getElementById('confirmation-message');
+
+        function closePopup() {
+            popup.classList.remove('active');
+            popup.setAttribute('aria-hidden', 'true');
+        }
+
+        function showConfirmation(message) {
+            if (!confirmationModal || !confirmationMessage) return;
+            confirmationMessage.textContent = message;
+            confirmationModal.classList.add('active');
+            confirmationModal.setAttribute('aria-hidden', 'false');
+        }
+
+        function closeConfirmation() {
+            if (!confirmationModal) return;
+            confirmationModal.classList.remove('active');
+            confirmationModal.setAttribute('aria-hidden', 'true');
+        }
+
+        function joinPopupEvent() {
+            if (!currentCard) return;
+            const currentCount = Number(currentCard.dataset.booked || 0) + 1;
+            currentCard.dataset.booked = currentCount;
+            const chip = currentCard.querySelector('.booked-chip');
+            if (chip) {
+                chip.textContent = `${currentCount} booked`;
+            }
+            popupBooked.textContent = `${currentCount} 👤`;
+            showConfirmation('Your seat has been reserved for ' + currentSessionName);
+        }
+
+        popup.addEventListener('click', event => {
+            if (event.target === popup) closePopup();
+        });
+
+        confirmationModal?.addEventListener('click', event => {
+            if (event.target === confirmationModal) {
+                closeConfirmation();
+            }
+        });
+
+        const icons = {
+          menu:
+            '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h16"/><path d="M4 18h16"/><path d="M4 6h16"/></svg>',
+          moon:
+            '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>',
+          sparkles:
+            '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.94 14.56 8 22l-1.94-7.44L0 12l6.06-2.56L8 2l1.94 7.44L16 12l-6.06 2.56Z" transform="translate(4 0) scale(.8)"/><path d="M19 3v4"/><path d="M21 5h-4"/><path d="M4 17v2"/><path d="M5 18H3"/></svg>',
+          sun:
+            '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>',
+          x:
+            '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>',
+            };
+
+        const savedTheme = localStorage.getItem("eventease-theme");
+        const shouldUseDark = savedTheme === "dark";
+
+        document.body.classList.toggle("dark-mode", shouldUseDark);
+
+        function injectIcons(root = document) {
+          root.querySelectorAll("[data-icon]").forEach((element) => {
+            const iconName = element.dataset.icon;
+            if (icons[iconName]) {
+              element.innerHTML = icons[iconName];
+            }
+          });
+        }
+
+        function updateThemeIcons() {
+          const isDark = document.body.classList.contains("dark-mode");
+          document.querySelectorAll("[data-theme-icon]").forEach((icon) => {
+            icon.dataset.icon = isDark ? "sun" : "moon";
+          });
+          injectIcons();
+        }
+
+        function setMenu(open) {
+          const mobileNav = document.querySelector("[data-mobile-nav]");
+          const menuToggle = document.querySelector("[data-menu-toggle]");
+          const menuIcon = document.querySelector("[data-menu-icon]");
+
+          if (!mobileNav || !menuToggle || !menuIcon) {
+            return;
+          }
+
+          mobileNav.hidden = !open;
+          menuToggle.setAttribute("aria-expanded", String(open));
+          menuToggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+          menuIcon.dataset.icon = open ? "x" : "menu";
+          document.body.classList.toggle("menu-open", open);
+          injectIcons(menuToggle);
+        }
+
+        function setupHeaderState() {
+          const header = document.querySelector("[data-header]");
+          if (!header) {
+            return;
+          }
+          const update = () => header.classList.toggle("is-scrolled", window.scrollY > 8);
+          update();
+          window.addEventListener("scroll", update, { passive: true });
+        }
+
+        document.querySelectorAll("[data-theme-toggle]").forEach((button) => {
+          button.addEventListener("click", () => {
+            const isDark = document.body.classList.toggle("dark-mode");
+            localStorage.setItem("eventease-theme", isDark ? "dark" : "light");
+            updateThemeIcons();
+          });
+        });
+
+        const menuToggleButton = document.querySelector("[data-menu-toggle]");
+        menuToggleButton?.addEventListener("click", () => {
+          const isOpen = menuToggleButton.getAttribute("aria-expanded") === "true";
+          setMenu(!isOpen);
+        });
+
+        document.querySelector("[data-mobile-nav]")?.addEventListener("click", (event) => {
+          if (event.target.closest("a")) {
+            setMenu(false);
+          }
+        });
+
+        document.addEventListener("keydown", (event) => {
+          if (event.key === "Escape") {
+            setMenu(false);
+          }
+        });
+
+        injectIcons();
+        updateThemeIcons();
+        setupHeaderState();
+    </script>
+    <footer class="site-footer">
+    <div class="container footer-grid">
+      <div class="footer-brand">
+        <a class="brand" href="index.html" aria-label="EventEase home">
+          <span class="brand-mark" aria-hidden="true">
+            <i class="fa-regular fa-calendar-check"></i>
+          </span>
+          <span class="brand-name">EventEase</span>
+        </a>
+        <p class="footer-desc">Event planning for the next generation. Connecting students and young professionals through unforgettable experiences.</p>
+        <div class="socials">
+          <a href="#" aria-label="X">X</a>
+          <a href="#" aria-label="Instagram">IG</a>
+          <a href="#" aria-label="LinkedIn">LI</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h3>Company</h3>
+        <ul>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="about.html">Our Team</a></li>
+          <li><a href="services.html">Services</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h3>Events</h3>
+        <ul>
+          <li><a href="#">Campus Events</a></li>
+          <li><a href="#">Networking</a></li>
+          <li><a href="#">Workshops</a></li>
+          <li><a href="#">Corporate</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h3>Support</h3>
+        <ul>
+          <li><a href="faq.html">FAQ</a></li>
+          <li><a href="contact.html">Register Interest</a></li>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms of Use</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="container footer-bottom">
+      <span>© 2026 EventEase Ltd. All rights reserved.</span>
+      <span class="status"><span class="status-dot"></span> All systems operational</span>
+    </div>
+  </footer>
+</body>
+</html>
